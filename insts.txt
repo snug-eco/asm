@@ -1,0 +1,61 @@
+
+0x00 BRK --
+
+0x01 INC a -- a+1
+0x02 POP a --
+0x03 SWP a b -- b a
+0x04 DUP a -- a a
+0x05 LIT -- a
+
+0x06 EQU a b -- a=b
+0x07 NEQ a b -- a≠b
+0x08 GTH a b -- a>b
+0x09 LTH a b -- a<b
+
+0x0a JMP addr --
+0x0b JCN cond addr --
+0x0c JSR addr -- | pc*
+0x0d RET | addr* --
+
+0x0e LDV name -- val
+0x0f STV val name --
+0x10 LDA ptr* -- [ptr*]
+0x11 STA val ptr* --
+
+0x12 INP -- char
+0x13 OUT char --
+
+0x14 ADD a b -- a+b
+0x15 SUB a b -- a-b
+0x16 MUL a b -- a×b
+0x17 DIV a b -- a÷b
+
+0x18 AND a b -- a&b
+0x19 AOR a b -- a|b
+0x20 XOR a b -- a^b
+0x21 SHL a o -- a << o
+0x22 SHR a o -- a >> o
+0x23 NOT a   -- ~a
+
+0x24 DBG a --
+0x25 STR ptr* --
+
+
+0x70 S00 -- (flush disk cache)
+0x71 S01 addr* -- byte (read  disk)
+0x72 S02 addr* byte -- (write disk)
+    addr is 4 byte contiguose struct
+
+0x73 S03 name* -- addr* (seek file)
+0x74 S04 addr* -- addr* (open file)
+0x75 S05 name* size -- addr* (create file)
+0x76 S06 addr* -- (delete file)
+0x77 S07 addr* -- size (size file)
+
+
+
+
+
+
+
+
