@@ -2,9 +2,12 @@ jsr main
 brk
 
 var _ptr
-let _buffer 0
+var _buffer
 
 lab main
+    lit 0
+    stv _buffer
+
     ;write string into data memory at $0
     lit _buffer
     dup
