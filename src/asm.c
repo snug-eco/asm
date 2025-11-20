@@ -92,20 +92,20 @@ uint32_t dj2(char* str)
 
 struct pre_label_entry
 {
-    uint32_t addr;
+    uint16_t addr;
     uint32_t hash;
     char name[128];
 } pre_label_table[10000] = { 0 };
 uint32_t pre_label_index = 0;
 
-void register_label(char* name, uint32_t addr)
+void register_label(char* name, uint16_t addr)
 {
     struct pre_label_entry* l = &pre_label_table[pre_label_index++];
     l->addr = addr;
     l->hash = dj2(name);
     strcpy(l->name, name);
 }
-uint32_t lookup_label(char* name)
+uint16_t lookup_label(char* name)
 {
     uint32_t hash = dj2(name);
     
@@ -153,13 +153,14 @@ uint32_t lookup_var(char* name)
 void explore(char* path)
 {
     FILE* f = fopen(path, "r");
-    uint32_t addr = 0;
+    uint16_t addr = 0;
 
     char* t;
     while ((t = tok(f)))
     {
-        #define zP(str) else if (!strcmp(t, str))          addr++;
-        #define oP(str) else if (!strcmp(t, str)) { tok(f); addr += 2; }
+        /*zero paramter*/ #define zP(str) else if (!strcmp(t, str))           addr++;
+        /*one  paramter*/ #define oP(str) else if (!strcmp(t, str)) { tok(f); addr += 2; }
+        /*jump paramter*/ #define jP(str) else if (!strcmp(t, str)) { tok(f); addr += 3; }
 
         if (0) {}
         zP("brk") zP("inc") zP("pop") zP("swp") zP("dup") oP("lit")
@@ -182,6 +183,14 @@ void explore(char* path)
     }
 }
 
+void fjump(char* label, FILE* out)
+{
+    //little endian
+    uint16_t addr = lookup_label(label);
+    fputc((addr >> 0) & 0xff, out);
+    fputc((addr >> 8) & 0xff, out);
+}
+
 void assemble(char* path, FILE* out)
 {
     line_no = 0;
@@ -202,9 +211,9 @@ void assemble(char* path, FILE* out)
         else if (!strcmp(t, "gth")) fputc(0x08, out);
         else if (!strcmp(t, "lth")) fputc(0x09, out);
 
-        else if (!strcmp(t, "jmp")) { fputc(0x0a, out); fputc(lookup_label(tok(f)), out); }
-        else if (!strcmp(t, "jcn")) { fputc(0x0b, out); fputc(lookup_label(tok(f)), out); }
-        else if (!strcmp(t, "jsr")) { fputc(0x0c, out); fputc(lookup_label(tok(f)), out); }
+        else if (!strcmp(t, "jmp")) { fputc(0x0a, out); fjump(tok(f), out); }
+        else if (!strcmp(t, "jcn")) { fputc(0x0b, out); fjump(tok(f), out); }
+        else if (!strcmp(t, "jsr")) { fputc(0x0c, out); fjump(tok(f), out); }
         else if (!strcmp(t, "ret")) fputc(0x0d, out);
 
         else if (!strcmp(t, "ldv")) { fputc(0x0e, out); fputc(lookup_var(tok(f)), out); }
