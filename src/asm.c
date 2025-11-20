@@ -255,6 +255,7 @@ int main(int argc, char** argv)
     explore(path);
     assemble(path, out);
 
+    fclose(out);
     return 0;
 }
 
