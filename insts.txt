@@ -22,7 +22,7 @@
 0x10 LDA (ptr* -- [ptr*])
 0x11 STA (val ptr* --)
 
-0x12 INP (-- char)
+0x12 INP (-- char) [yields]
 0x13 OUT (char --)
 
 0x14 ADD (a b -- a+b)
@@ -41,16 +41,17 @@
 0x1f STR x (ptr* --)
 
 
-0x70 S00 -- (flush disk cache)
-0x71 S01 addr* -- byte (read  disk)
-0x72 S02 addr* byte -- (write disk)
+0x70 S00 -- (yield to task swapper)
+0x71 S01 -- (flush disk cache)
+0x72 S02 addr* -- byte (read  disk)
+0x73 S03 addr* byte -- (write disk)
     addr is 4 byte contiguose struct
 
-0x73 S03 name* -- addr* (seek file)
-0x74 S04 addr* -- addr* (open file)
-0x75 S05 name* size -- addr* (create file)
-0x76 S06 addr* -- (delete file)
-0x77 S07 addr* -- size (size file)
+0x74 S04 name* -- addr* (seek file)
+0x75 S05 addr* -- addr* (open file)
+0x76 S06 name* size -- addr* (create file)
+0x77 S07 addr* -- (delete file)
+0x78 S08 addr* -- size (size file)
 
 
 
