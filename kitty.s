@@ -126,6 +126,32 @@ lab inc32/do
 
     
 
+;(a -- ) IO
+lab dbg/u32
+    stv _a
+
+    jsr dbg/u32/do
+    jsr dbg/u32/do
+    jsr dbg/u32/do
+    jsr dbg/u32/do
+
+    ret
+
+lab dbg/u32/do
+    ldv _a
+    dup
+    inc
+    stv _a
+    lda
+    dbg
+    ret
+
+
+    
+    
+
+
+
 
     
     
@@ -151,24 +177,26 @@ lab main
     s05 ;seek file
 
     ;copy file header address
-    ;ldv _end 
-    ;ldv _iter
-    ;lit 4
-    ;jsr _memcpy
+    ldv _end 
+    ldv _iter
+    lit 4
+    jsr memcpy
+
+
 
     ldv _iter
     s06 ;open file iterator
 
-    ;lda _end
-    ;s07 ;get end of file, start of next header
+    ldv _end
+    s07 ;get end of file, start of next header
 
     ;setup done
 lab loop
     ;check done
-    ;ldv _iter
-    ;ldv _end
-    ;jsr compare32
-    ;jcn _done
+    ldv _iter
+    ldv _end
+    jsr compare32
+    jcn done
 
     ;read and transmit char
     ldv _iter
