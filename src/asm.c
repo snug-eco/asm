@@ -180,6 +180,10 @@ void explore(char* path)
 
         else if (!strcmp(t, "var"))
             alloc_var(tok(f));
+
+        else if (*t == 's')
+            addr++;
+
     }
 }
 
@@ -249,6 +253,13 @@ void assemble(char* path, FILE* out)
 
         else if (!strcmp(t, "lab")) tok(f);
         else if (!strcmp(t, "var")) tok(f);
+
+        else if (*t == 's')
+        {
+            uint8_t inst = (t[1] << 8) + t[2];
+            fputc(inst | 0x80, out);
+        }
+
     }
 
 }
