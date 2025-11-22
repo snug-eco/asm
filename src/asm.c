@@ -138,7 +138,7 @@ uint32_t lookup_var(char* name)
 {
     for (uint32_t addr = 0; addr < var_table_index; addr++)
     {
-        if (!strcmp(name, var_table[addr].name)) continue;
+        if (strcmp(name, var_table[addr].name)) continue;
         return addr;
     }
 
