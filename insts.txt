@@ -52,15 +52,17 @@
 0x85 S05 addr* name* -- (seek file)
 0x86 S06 addr* -- (open file)
 0x87 S07 addr* -- (next file)
-0x88 S08 addr* name* size -- (create file)
-0x89 S09 addr* -- (delete file)
-0x8a S10 addr* size* -- (size file)
+(
+    0x88 S08 addr* name* size -- (create file)
+    0x89 S09 addr* -- (delete file)
+    0x8a S10 addr* size* -- (size file)
+)
 
 0x8b S11 addr* -- id (launch process)
 0x8c S12 id -- (kill process)
 0x8d S13 id -- bool (check process active)
 
-
+0x8e S14 -- bool (check term recv ready)
 
 
 
