@@ -150,10 +150,10 @@ uint32_t lookup_var(char* name)
 
 
 
+uint16_t addr = 0;
 void explore(char* path)
 {
     FILE* f = fopen(path, "r");
-    uint16_t addr = 0;
 
     char* t;
     while ((t = tok(f)))
@@ -180,6 +180,13 @@ void explore(char* path)
 
         else if (!strcmp(t, "var"))
             alloc_var(tok(f));
+
+        else if (!strcmp(t, "use"))
+        {
+            char buf[128];
+            sprintf(buf, "lib/%s", tok(f));
+            explore(buf);
+        }
 
         else if (t[0] == 's')
             addr++;
@@ -260,6 +267,12 @@ void assemble(char* path, FILE* out)
             t[2] -= '0';
             uint8_t inst = (t[1] * 10) + t[2];
             fputc(inst | 0x80, out);
+        }
+        else if (!strcmp(t, "use"))
+        {
+            char buf[128];
+            sprintf(buf, "lib/%s", tok(f));
+            assemble(buf, out);
         }
 
         else
