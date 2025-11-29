@@ -154,6 +154,11 @@ uint16_t addr = 0;
 void explore(char* path)
 {
     FILE* f = fopen(path, "r");
+    if (!f)
+    {
+        fprintf(stderr, "unable to open source file '%s'.\n", path);
+        exit(1);
+    }
 
     char* t;
     while ((t = tok(f)))
