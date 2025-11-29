@@ -64,7 +64,8 @@
 
 0x8e S14 -- bool (check term recv ready)
 
-
+0x90 S16 addr* -- (quad/inc)
+0x91 S17 a* b* -- bool (quad/compare)
 
 
 
