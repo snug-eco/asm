@@ -33,6 +33,8 @@ lab main/done
 
     lit 10
     out
+    lit 13
+    out
     ret
 
 
